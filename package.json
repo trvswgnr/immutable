@@ -1,0 +1,11 @@
+{
+    "name": "@travvy/immutable",
+    "version": "0.0.1",
+    "description": "A utility library for TypeScript and JavaScript that provides a way to create deeply immutable objects.",
+    "module": "immutable.ts",
+    "type": "module",
+    "devDependencies": {
+        "@types/bun": "latest",
+        "typescript": "^5.4.5"
+    }
+}
