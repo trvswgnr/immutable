@@ -1,65 +1,56 @@
-type Primitive = null | undefined | boolean | number | bigint | string | symbol;
-
-type AnyFn = (...args: any[]) => any;
-
-export type Immutable<T> = T extends Primitive
-    ? T
-    : {
-          readonly [P in keyof T]: T[P] extends object
-              ? T[P] extends AnyFn
-                  ? T[P]
-                  : Immutable<T[P]>
-              : T[P];
-      };
-
-export function Immutable<T>(value: T): Immutable<T> {
-    if ((typeof value !== "object" || value === null) && typeof value !== "function") {
-        return value as Immutable<T>;
+function immutable<T extends new (...args: any[]) => any>(Constructor: T): T {
+    function deepFreeze(obj: any): any {
+        if (obj && typeof obj === 'object' && !Object.isFrozen(obj)) {
+            Object.getOwnPropertyNames(obj).forEach(prop => {
+                const value = obj[prop];
+                if (typeof value === 'object' && value !== null) {
+                    deepFreeze(value);
+                }
+            });
+            Object.freeze(obj);
+        }
+        return obj;
     }
 
-    const proxy = new Proxy(value, {
-        get(target, name) {
-            const commonUpdaterNames = [
-                "add",
-                "delete",
-                "clear",
-                "set",
-                "append",
-                "prepend",
-                "push",
-                "pop",
-                "shift",
-                "unshift",
-                "splice",
-                "sort",
-                "reverse",
-                "fill",
-                "setFullYear",
-                "setHours",
-                "setMinutes",
-                "setSeconds",
-                "setMilliseconds",
-            ];
-            if (commonUpdaterNames.includes(name as string)) {
-                throw new Error(
-                    `Cannot call '${String(name)}' because it would modify immutable object.`,
-                );
+    const instanceHandler = {
+        get(target, prop) {
+            const value = target[prop];
+            if (typeof value === 'object' && value !== null) {
+                return new Proxy(value, instanceHandler);
             }
-            if (!(name in target)) {
-                return undefined;
-            }
-            const value = target[name as keyof T];
-            if (typeof value !== "function") {
-                return Immutable(value);
-            }
-            return Immutable(value.bind(target));
+            return value;
         },
-        set(_, prop) {
-            throw new Error(
-                `Cannot assign to '${String(prop)}' because it is a read-only property.`,
-            );
+        set() {
+            throw new Error('Cannot mutate immutable object');
         },
-    });
+        deleteProperty() {
+            throw new Error('Cannot mutate immutable object');
+        },
+        defineProperty() {
+            throw new Error('Cannot mutate immutable object');
+        },
+        setPrototypeOf() {
+            throw new Error('Cannot mutate immutable object');
+        }
+    };
 
-    return proxy as Immutable<T>;
+    return new Proxy(Constructor, {
+        construct(target, args) {
+            const instance = new target(...args);
+
+            if (Array.isArray(instance)) {
+                instance.forEach(item => deepFreeze(item));
+            } else if (instance instanceof Map || instance instanceof Set) {
+                instance.forEach(item => deepFreeze(item));
+            } else if (instance instanceof Date) {
+                Object.freeze(instance);
+            } else {
+                deepFreeze(instance);
+            }
+
+            return new Proxy(instance, instanceHandler);
+        }
+    }) as T;
 }
+
+export { immutable };
