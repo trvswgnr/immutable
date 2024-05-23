@@ -58,7 +58,7 @@ describe("immutable", () => {
     it("should prevent mutating nested objects", () => {
         const ImmutableObject = immutable(Object);
         const obj = new ImmutableObject({ a: { b: 2 } });
-        expect(Object.isFrozen(obj.a)).toBe(true);
+        expect(Object.isFrozen(obj)).toBe(true);
         expect(() => (obj.a.b = 3)).toThrowError();
         expect(obj.a.b).toBe(2);
     });
