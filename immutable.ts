@@ -15,7 +15,7 @@ function immutable<T extends new (...args: any[]) => any>(Constructor: T): T {
     const instanceHandler = {
         get(target, prop, receiver) {
             const value = Reflect.get(target, prop, receiver);
-            if (typeof value === 'object' && value !== null) {
+            if (typeof value === 'object' && value !== null && !Object.isFrozen(value)) {
                 return new Proxy(value, instanceHandler);
             }
             return value;
@@ -41,8 +41,14 @@ function immutable<T extends new (...args: any[]) => any>(Constructor: T): T {
             if (Array.isArray(instance)) {
                 instance.forEach(item => deepFreeze(item));
                 deepFreeze(instance);
-            } else if (instance instanceof Map || instance instanceof Set) {
-                instance.forEach(item => deepFreeze(item));
+            } else if (instance instanceof Map) {
+                instance.forEach((value, key) => {
+                    deepFreeze(value);
+                    deepFreeze(key);
+                });
+                deepFreeze(instance);
+            } else if (instance instanceof Set) {
+                instance.forEach(value => deepFreeze(value));
                 deepFreeze(instance);
             } else if (instance instanceof Date) {
                 Object.freeze(instance);
