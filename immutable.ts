@@ -40,8 +40,10 @@ function immutable<T extends new (...args: any[]) => any>(Constructor: T): T {
 
             if (Array.isArray(instance)) {
                 instance.forEach(item => deepFreeze(item));
+                deepFreeze(instance);
             } else if (instance instanceof Map || instance instanceof Set) {
                 instance.forEach(item => deepFreeze(item));
+                deepFreeze(instance);
             } else if (instance instanceof Date) {
                 Object.freeze(instance);
             } else {
