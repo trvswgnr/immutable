@@ -13,8 +13,8 @@ function immutable<T extends new (...args: any[]) => any>(Constructor: T): T {
     }
 
     const instanceHandler = {
-        get(target, prop) {
-            const value = target[prop];
+        get(target, prop, receiver) {
+            const value = Reflect.get(target, prop, receiver);
             if (typeof value === 'object' && value !== null) {
                 return new Proxy(value, instanceHandler);
             }
