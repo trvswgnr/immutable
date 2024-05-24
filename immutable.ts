@@ -1,14 +1,11 @@
-import { ImmutableArray } from "./data-structures/Array";
-import { ImmutableBigInt64Array } from "./data-structures/BigInt64Array";
-
 export function immutable<const T>(inst: T): Immutable<T> {
     switch (true) {
         case inst instanceof Array:
-            return inst as any;
+            return inst
         case inst instanceof BigInt64Array:
-            return inst as any;
+            return inst;
         default:
-            return inst as any;
+            return inst;
     }
 }
 

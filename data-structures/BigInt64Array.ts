@@ -352,5 +352,3 @@ export interface ImmutableBigInt64ArrayConstructor {
         thisArg?: any,
     ): ImmutableBigInt64Array;
 }
-
-export const ImmutableBigInt64Array: ImmutableBigInt64ArrayConstructor = BigInt64Array as any;

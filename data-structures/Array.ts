@@ -410,5 +410,3 @@ export interface ImmutableArrayConstructor {
 }
 
 export type ImmutableArray<T> = _ImmutableArray<T>;
-
-export const ImmutableArray: ImmutableArrayConstructor = Array as any;
