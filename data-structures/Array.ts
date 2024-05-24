@@ -400,8 +400,6 @@ interface ImmutableArray<T> extends RelativeIndexable<T> {
     ): number;
 }
 
-type HasSameKeys<T, U> = keyof T extends keyof U ? (keyof U extends keyof T ? true : false) : false;
-
 
 export interface ImmutableArrayConstructor {
     prototype: ImmutableArray<any>;

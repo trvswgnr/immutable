@@ -1,3 +1,5 @@
+import type { HasSameKeys, IsUniqueArray, TSError, TuplifyUnion, UniqueArray } from "./utils";
+
 export const builtinCtors = {
     Array: {
         ctor: Array,
@@ -160,8 +162,9 @@ export function isBuiltinCtor(ctor: unknown): ctor is BuiltinCtor {
     return values !== undefined;
 }
 
-declare const error: unique symbol;
-type TSError<T> = { [error]: T };
+type A = { a: 1; b: 2 };
+type B = { a: 1; b: 2; c: 3; d: 4 };
+type test = HasSameKeys<A, B>;
 
 type Ctor = new (...args: any[]) => any;
 
@@ -188,9 +191,17 @@ export function ex<
     I extends InstanceType<T>,
     Methods extends keyof OnlyMethods<I>,
     Props extends keyof OnlyProps<I>,
-    A extends [] | (ReadonlyArray<Methods> & AsUniqueArray<A, A>),
-    B extends [] | (ReadonlyArray<Props> & AsUniqueArray<B, B>),
->(constructor: T, mutatingMethods?: A, mutatingProperties?: NoInfer<B>) {
+    const A extends Methods[],
+    const B extends Props[],
+>(
+    constructor: T,
+    mutatingMethods?: IsUniqueArray<A> extends true
+        ? A
+        : TSError<"duplicate elements found in array">,
+    mutatingProperties?: IsUniqueArray<B> extends true
+        ? B
+        : TSError<"duplicate elements found in array">,
+) {
     return {
         constructor,
         mutatingMethods: mutatingMethods ?? [],
@@ -312,5 +323,3 @@ function immutable<T extends BuiltinCtor["inst"]>(x: T): Immutable<T> {
 }
 
 export type Fn<T = any, A extends readonly any[] = any[]> = (...args: A) => T;
-
-

@@ -29,3 +29,64 @@ export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) ex
 ) => void
     ? I
     : never;
+
+export type Tail<T extends any[]> = T extends [infer X, ...infer TailType] ? TailType : never;
+
+type JoinRecursive<
+    H extends string,
+    T extends string[],
+    Separator extends string,
+> = Tail<T> extends [string, ...string[]]
+    ? `${H}${Separator}${JoinRecursive<T[0], Tail<T>, Separator>}`
+    : `${H}${Separator}${T[0]}`;
+
+export type LastOf<T> = UnionToIntersection<T extends any ? () => T : never> extends () => infer R
+    ? R
+    : never;
+
+export type Join<T extends string[], Separator extends string> = Tail<T> extends string[]
+    ? JoinRecursive<T[0], Tail<T>, Separator>
+    : T[0];
+
+export type Push<T extends any[], V> = [...T, V];
+
+export type TuplifyUnion<T, L = LastOf<T>, N = [T] extends [never] ? true : false> = true extends N
+    ? []
+    : Push<TuplifyUnion<Exclude<T, L>>, L>;
+
+export type Stringify<T> = T extends string | number | bigint | boolean | null | undefined
+    ? `${T}`
+    : never;
+
+declare const error: unique symbol;
+export type TSError<T> = { [error]: T };
+
+type ArrStr<T> = T extends string[] ? T : never;
+
+type HasSameKeysErrHelper<X, S extends string = ""> = TSError<`${Join<
+    ArrStr<TuplifyUnion<X>>,
+    ", "
+>}${S}`>;
+
+export type HasSameKeys<A, B> = keyof A extends keyof B
+    ? keyof B extends keyof A
+        ? true
+        : HasSameKeysErrHelper<Exclude<keyof B, keyof A>, " missing from A">
+    : HasSameKeysErrHelper<Exclude<keyof A, keyof B>, " missing from B">;
+
+export type IsUniqueArray<T extends any[], Acc extends any[] = []> = T extends [
+    infer H,
+    ...infer Tail,
+]
+    ? H extends Acc[number]
+        ? false
+        : IsUniqueArray<Tail, [...Acc, H]>
+    : true;
+
+type ToArr<T> = T extends any[] ? T : T[] extends T ? never : T[];
+
+export type UniqueArray<T> = T extends any[]
+    ? IsUniqueArray<T> extends true
+        ? T
+        : never
+    : UniqueArray<ToArr<T>>;
