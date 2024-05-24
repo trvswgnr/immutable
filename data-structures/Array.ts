@@ -1,37 +1,4 @@
-import { ex, type RemoveEmptyArrayFromUnion } from "../exclusions";
-import type { Alike, ExpectTrue } from "../utils";
-
-const exclusion = ex(Array, [
-    "push",
-    "pop",
-    "shift",
-    "unshift",
-    "splice",
-    "sort",
-    "reverse",
-    "fill",
-]);
-
-const mutatingMethods = exclusion.mutatingMethods;
-
-class _ImmutableArray<T> extends Array<T> {
-    constructor(...args: any[]) {
-        super(...args);
-        for (const method of mutatingMethods) {
-            this[method] = undefined as any;
-        }
-        return new Proxy(this, {
-            set: (target, prop, value) => {
-                if (prop !== "length") {
-                    throw new Error(`cannot assign to ${String(prop)} on ImmutableArray`);
-                }
-                return Reflect.set(target, prop, value);
-            },
-        });
-    }
-}
-
-interface ImmutableArray<T> extends RelativeIndexable<T> {
+interface _ImmutableArray<T> extends RelativeIndexable<T> {
     readonly [n: number]: T;
 
     /**
@@ -388,7 +355,7 @@ interface ImmutableArray<T> extends RelativeIndexable<T> {
     /**
      * Returns the index of the first element in the array where predicate is true, and -1
      * otherwise.
-     * @param predicate find calls predicate once for each element of the array, in ascending
+     * @param predicate findIndex calls predicate once for each element of the array, in ascending
      * order, until it finds one where predicate returns true. If such an element is found,
      * findIndex immediately returns that element index. Otherwise, findIndex returns -1.
      * @param thisArg If provided, it will be used as the this value for each invocation of
@@ -400,10 +367,19 @@ interface ImmutableArray<T> extends RelativeIndexable<T> {
     ): number;
 }
 
-
 export interface ImmutableArrayConstructor {
-    prototype: ImmutableArray<any>;
-    isArray(arg: any): arg is ImmutableArray<any>;
+    [Symbol.species]: ImmutableArrayConstructor;
+    readonly prototype: ImmutableArray<unknown>;
+
+    new (arrayLength?: number): ImmutableArray<unknown>;
+    new <T>(arrayLength: number): ImmutableArray<T>;
+    new <T>(...items: T[]): ImmutableArray<T>;
+
+    (arrayLength?: number): any[];
+    <T>(arrayLength: number): T[];
+    <T>(...items: T[]): T[];
+
+    isArray(arg: unknown): arg is ImmutableArray<unknown>;
     from<T>(arrayLike: ArrayLike<T>): ImmutableArray<T>;
     from<T, U>(
         arrayLike: ArrayLike<T>,
@@ -431,11 +407,8 @@ export interface ImmutableArrayConstructor {
         mapFn?: unknown,
         thisArg?: unknown,
     ): Promise<Awaited<ImmutableArray<unknown>>> | Promise<Awaited<ImmutableArray<unknown>>>;
-    [Symbol.species]: ImmutableArrayConstructor;
 }
 
-export const ImmutableArray: ImmutableArrayConstructor = _ImmutableArray;
+export type ImmutableArray<T> = _ImmutableArray<T>;
 
-const x = ImmutableArray.from([1, 2, 3]);
-const y = x.map((x) => x + 1);
-console.log(x, y);
+export const ImmutableArray: ImmutableArrayConstructor = Array as any;

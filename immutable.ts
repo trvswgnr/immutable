@@ -1,25 +1,25 @@
-import {
-    builtinCtors,
-    exclusions,
-    isBuiltinCtor,
-    find,
-    exclude,
-    type BuiltinCtor,
-} from "./exclusions";
+import { ImmutableArray } from "./data-structures/Array";
+import { ImmutableBigInt64Array } from "./data-structures/BigInt64Array";
 
-export function immutable<C extends new (...args: any[]) => any>(
-    ctor: C,
-): ImmutableConstructor<ConstructorParameters<C>, InstanceType<C>> {
-    return exclude(ctor);
+export function immutable<const T>(inst: T): Immutable<T> {
+    switch (true) {
+        case inst instanceof Array:
+            return inst as any;
+        case inst instanceof BigInt64Array:
+            return inst as any;
+        default:
+            return inst as any;
+    }
 }
 
-type ImmutableConstructor<A extends readonly any[], T> = new (...args: A) => Immutable<T>;
+export type Immutable<T> = T extends ReadonlyArray<infer U>
+    ? ImmutableArray<U>
+    : T extends BigInt64Array
+    ? ImmutableBigInt64Array
+    : ImmutableObject<T>;
 
-type Immutable<T> = {
-    readonly [K in keyof T]: T[K] extends object ? Immutable<T[K]> : T[K];
+export type ImmutableObject<T> = {
+    readonly [K in keyof T]: T[K];
 };
 
-const Arr = immutable(Array);
-const a = new Arr(1, 2, 3);
-a[0] = 10;
-console.log(a);
+const test = immutable({ a: 1, b: 2, c: 3 });

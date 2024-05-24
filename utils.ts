@@ -90,3 +90,5 @@ export type UniqueArray<T> = T extends any[]
         ? T
         : never
     : UniqueArray<ToArr<T>>;
+
+export type Constructor<T = any, A extends readonly any[] = any[]> = new (...args: A) => T;
