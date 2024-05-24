@@ -42,7 +42,7 @@ console.log(Object.keys(builtinCtors).join(",\n"));
 
 type BuiltinCtors = typeof builtinCtors;
 
-export type BuiltinCtor = BuiltinCtors[number];
+export type BuiltinClass = BuiltinCtors[number];
 
 type OnlyMethods<T> = {
     [K in keyof T as T[K] extends (...args: any[]) => any ? K : never]: T[K];
@@ -55,7 +55,7 @@ type OnlyProps<T> = {
 type NoInfer<A extends any> = [A][A extends any ? 0 : never];
 
 export function ex<
-    T extends BuiltinCtor,
+    T extends BuiltinClass,
     I extends InstanceType<T>,
     Methods extends keyof OnlyMethods<I>,
     Props extends keyof OnlyProps<I>,
@@ -157,22 +157,22 @@ export type RemoveEmptyArrayFromUnion<T> = T extends readonly any[]
         : T
     : T;
 
-type ExclusionMap<T extends BuiltinCtor> = Map<T, Exclusion<T>>;
+type ExclusionMap<T extends BuiltinClass> = Map<T, Exclusion<T>>;
 type MutatingMethods<T> = RemoveEmptyArrayFromUnion<Exclusion<T>["mutatingMethods"]>;
-type MutatingProperties<T extends BuiltinCtor> = Exclusion<T>["mutatingProperties"];
+type MutatingProperties<T extends BuiltinClass> = Exclusion<T>["mutatingProperties"];
 
 type Immutable<T> = Omit<T, keyof MutatingMethods<T>>;
 type t = Immutable<[1, 2, 3]>;
 
-const CTOR_MAP: ExclusionMap<BuiltinCtor> = new Map(
+const CTOR_MAP: ExclusionMap<BuiltinClass> = new Map(
     exclusions.map((e) => [e.constructor, e]),
 ) as any;
 
-function findExclusion<T extends BuiltinCtor>(ctor: T): Exclusion<T> | undefined {
+function findExclusion<T extends BuiltinClass>(ctor: T): Exclusion<T> | undefined {
     return CTOR_MAP.get(ctor) as Exclusion<T> | undefined;
 }
 
-export function findMutatingMethods<T extends BuiltinCtor>(ctor: T): MutatingMethods<T> {
+export function findMutatingMethods<T extends BuiltinClass>(ctor: T): MutatingMethods<T> {
     return (findExclusion(ctor) as any).mutatingMethods ?? [];
 }
 

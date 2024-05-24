@@ -54,9 +54,9 @@ interface _ImmutableArray<T> extends RelativeIndexable<T> {
      * @param thisArg An object to which the this keyword can refer in the predicate function.
      * If thisArg is omitted, undefined is used as the this value.
      */
-    every<S extends T>(
+    every<S extends T, This = undefined>(
         predicate: (value: T, index: number, array: ImmutableArray<T>) => value is S,
-        thisArg?: any,
+        thisArg?: This,
     ): this is ImmutableArray<S>;
     /**
      * Determines whether all the members of an array satisfy the specified test.
@@ -66,9 +66,9 @@ interface _ImmutableArray<T> extends RelativeIndexable<T> {
      * @param thisArg An object to which the this keyword can refer in the predicate function.
      * If thisArg is omitted, undefined is used as the this value.
      */
-    every(
+    every<This = undefined>(
         predicate: (value: T, index: number, array: ImmutableArray<T>) => unknown,
-        thisArg?: any,
+        thisArg?: This,
     ): boolean;
     /**
      * Determines whether the specified callback function returns true for any element of an array.
@@ -78,45 +78,45 @@ interface _ImmutableArray<T> extends RelativeIndexable<T> {
      * @param thisArg An object to which the this keyword can refer in the predicate function.
      * If thisArg is omitted, undefined is used as the this value.
      */
-    some(
+    some<This = undefined>(
         predicate: (value: T, index: number, array: ImmutableArray<T>) => unknown,
-        thisArg?: any,
+        thisArg?: This,
     ): boolean;
     /**
      * Performs the specified action for each element in an array.
      * @param callbackfn  A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array.
      * @param thisArg  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
      */
-    forEach(
+    forEach<This = undefined>(
         callbackfn: (value: T, index: number, array: ImmutableArray<T>) => void,
-        thisArg?: any,
+        thisArg?: This,
     ): void;
     /**
      * Calls a defined callback function on each element of an array, and returns an array that contains the results.
      * @param callbackfn A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array.
      * @param thisArg An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value.
      */
-    map<U>(
+    map<U, This = undefined>(
         callbackfn: (value: T, index: number, array: ImmutableArray<T>) => U,
-        thisArg?: any,
+        thisArg?: This,
     ): ImmutableArray<U>;
     /**
      * Returns the elements of an array that meet the condition specified in a callback function.
      * @param predicate A function that accepts up to three arguments. The filter method calls the predicate function one time for each element in the array.
      * @param thisArg An object to which the this keyword can refer in the predicate function. If thisArg is omitted, undefined is used as the this value.
      */
-    filter<S extends T>(
+    filter<S extends T, This = undefined>(
         predicate: (value: T, index: number, array: ImmutableArray<T>) => value is S,
-        thisArg?: any,
+        thisArg?: This,
     ): ImmutableArray<S>;
     /**
      * Returns the elements of an array that meet the condition specified in a callback function.
      * @param predicate A function that accepts up to three arguments. The filter method calls the predicate function one time for each element in the array.
      * @param thisArg An object to which the this keyword can refer in the predicate function. If thisArg is omitted, undefined is used as the this value.
      */
-    filter(
+    filter<This = undefined>(
         predicate: (value: T, index: number, array: ImmutableArray<T>) => unknown,
-        thisArg?: any,
+        thisArg?: This,
     ): ImmutableArray<T>;
     /**
      * Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
@@ -200,13 +200,13 @@ interface _ImmutableArray<T> extends RelativeIndexable<T> {
      * @param thisArg If provided, it will be used as the this value for each invocation of
      * predicate. If it is not provided, undefined is used instead.
      */
-    findLast<S extends T>(
+    findLast<S extends T, This = undefined>(
         predicate: (value: T, index: number, array: ImmutableArray<T>) => value is S,
-        thisArg?: any,
+        thisArg?: This,
     ): S | undefined;
-    findLast(
+    findLast<This = undefined>(
         predicate: (value: T, index: number, array: ImmutableArray<T>) => unknown,
-        thisArg?: any,
+        thisArg?: This,
     ): T | undefined;
 
     /**
@@ -218,9 +218,9 @@ interface _ImmutableArray<T> extends RelativeIndexable<T> {
      * @param thisArg If provided, it will be used as the this value for each invocation of
      * predicate. If it is not provided, undefined is used instead.
      */
-    findLastIndex(
+    findLastIndex<This = undefined>(
         predicate: (value: T, index: number, array: ImmutableArray<T>) => unknown,
-        thisArg?: any,
+        thisArg?: This,
     ): number;
 
     /**
@@ -343,13 +343,13 @@ interface _ImmutableArray<T> extends RelativeIndexable<T> {
      * @param thisArg If provided, it will be used as the this value for each invocation of
      * predicate. If it is not provided, undefined is used instead.
      */
-    find<S extends T>(
+    find<S extends T, This = undefined>(
         predicate: (value: T, index: number, obj: ImmutableArray<T>) => value is S,
-        thisArg?: any,
+        thisArg?: This,
     ): S | undefined;
-    find(
+    find<This = undefined>(
         predicate: (value: T, index: number, obj: ImmutableArray<T>) => unknown,
-        thisArg?: any,
+        thisArg?: This,
     ): T | undefined;
 
     /**
@@ -361,9 +361,9 @@ interface _ImmutableArray<T> extends RelativeIndexable<T> {
      * @param thisArg If provided, it will be used as the this value for each invocation of
      * predicate. If it is not provided, undefined is used instead.
      */
-    findIndex(
+    findIndex<This = undefined>(
         predicate: (value: T, index: number, obj: ImmutableArray<T>) => unknown,
-        thisArg?: any,
+        thisArg?: This,
     ): number;
 }
 
@@ -375,38 +375,44 @@ export interface ImmutableArrayConstructor {
     new <T>(arrayLength: number): ImmutableArray<T>;
     new <T>(...items: T[]): ImmutableArray<T>;
 
-    (arrayLength?: number): any[];
-    <T>(arrayLength: number): T[];
-    <T>(...items: T[]): T[];
+    (arrayLength?: number): ImmutableArray<unknown>;
+    <T>(arrayLength: number): ImmutableArray<T>;
+    <T>(...items: T[]): ImmutableArray<T>;
 
     isArray(arg: unknown): arg is ImmutableArray<unknown>;
     from<T>(arrayLike: ArrayLike<T>): ImmutableArray<T>;
-    from<T, U>(
+    from<T, U, This = undefined>(
         arrayLike: ArrayLike<T>,
         mapfn: (v: T, k: number) => U,
-        thisArg?: any,
+        thisArg?: This,
     ): ImmutableArray<U>;
     from<T>(iterable: Iterable<T> | ArrayLike<T>): ImmutableArray<T>;
-    from<T, U>(
+    from<T, U, This = undefined>(
         iterable: Iterable<T> | ArrayLike<T>,
         mapfn: (v: T, k: number) => U,
-        thisArg?: any,
+        thisArg?: This,
     ): ImmutableArray<U>;
-    from(iterable: unknown, mapfn?: unknown, thisArg?: unknown): ImmutableArray<unknown>;
+    from<This = undefined>(
+        iterable: unknown,
+        mapfn?: unknown,
+        thisArg?: This,
+    ): ImmutableArray<unknown>;
     of<T>(...items: T[]): ImmutableArray<T>;
     fromAsync<T>(
         arrayLike: AsyncIterable<T> | Iterable<T> | ArrayLike<T>,
     ): Promise<Awaited<ImmutableArray<T>>>;
-    fromAsync<T, U>(
+    fromAsync<T, U, This = undefined>(
         arrayLike: AsyncIterable<T> | Iterable<T> | ArrayLike<T>,
         mapFn?: ((value: T, index: number) => U) | undefined,
-        thisArg?: any,
+        thisArg?: This,
     ): Promise<Awaited<ImmutableArray<U>>>;
-    fromAsync(
+    fromAsync<This = undefined>(
         arrayLike: unknown,
         mapFn?: unknown,
-        thisArg?: unknown,
+        thisArg?: This,
     ): Promise<Awaited<ImmutableArray<unknown>>> | Promise<Awaited<ImmutableArray<unknown>>>;
 }
 
 export type ImmutableArray<T> = _ImmutableArray<T>;
+
+export const ImmutableArray: ImmutableArrayConstructor = Array;

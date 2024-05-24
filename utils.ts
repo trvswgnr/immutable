@@ -92,3 +92,9 @@ export type UniqueArray<T> = T extends any[]
     : UniqueArray<ToArr<T>>;
 
 export type Constructor<T = any, A extends readonly any[] = any[]> = new (...args: A) => T;
+
+export enum Ordering {
+    Less = -1,
+    Equal = 0,
+    Greater = 1,
+}

@@ -19,3 +19,5 @@ export interface ImmutableArrayBufferConstructor {
     new (byteLength: number, options: { maxByteLength?: number }): ImmutableArrayBuffer;
     isView(arg: any): arg is ArrayBufferView;
 }
+
+export const ImmutableArrayBuffer: ImmutableArrayBufferConstructor = ArrayBuffer;

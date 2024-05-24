@@ -1,6 +1,6 @@
 import type { Ordering } from "../utils";
 
-export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
+export interface ImmutableBigUint64Array extends RelativeIndexable<bigint> {
     /** The length of the array. */
     readonly length: number;
 
@@ -34,7 +34,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * If thisArg is omitted, undefined is used as the this value.
      */
     every<This = undefined>(
-        predicate: (value: bigint, index: number, array: ImmutableBigInt64Array) => boolean,
+        predicate: (value: bigint, index: number, array: ImmutableBigUint64Array) => boolean,
         thisArg?: This,
     ): boolean;
 
@@ -46,9 +46,9 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * If thisArg is omitted, undefined is used as the this value.
      */
     filter<This = undefined>(
-        predicate: (value: bigint, index: number, array: ImmutableBigInt64Array) => boolean,
+        predicate: (value: bigint, index: number, array: ImmutableBigUint64Array) => boolean,
         thisArg?: This,
-    ): ImmutableBigInt64Array;
+    ): ImmutableBigUint64Array;
 
     /**
      * Returns the value of the first element in the array where predicate is true, and undefined
@@ -60,7 +60,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * predicate. If it is not provided, undefined is used instead.
      */
     find<This = undefined>(
-        predicate: (value: bigint, index: number, array: ImmutableBigInt64Array) => boolean,
+        predicate: (value: bigint, index: number, array: ImmutableBigUint64Array) => boolean,
         thisArg?: This,
     ): bigint | undefined;
 
@@ -74,7 +74,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * predicate. If it is not provided, undefined is used instead.
      */
     findIndex<This = undefined>(
-        predicate: (value: bigint, index: number, array: ImmutableBigInt64Array) => boolean,
+        predicate: (value: bigint, index: number, array: ImmutableBigUint64Array) => boolean,
         thisArg?: This,
     ): number;
 
@@ -86,7 +86,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * If thisArg is omitted, undefined is used as the this value.
      */
     forEach<This = undefined>(
-        callbackfn: (value: bigint, index: number, array: ImmutableBigInt64Array) => void,
+        callbackfn: (value: bigint, index: number, array: ImmutableBigUint64Array) => void,
         thisArg?: This,
     ): void;
 
@@ -132,9 +132,9 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * If thisArg is omitted, undefined is used as the this value.
      */
     map<This = undefined>(
-        callbackfn: (value: bigint, index: number, array: ImmutableBigInt64Array) => bigint,
+        callbackfn: (value: bigint, index: number, array: ImmutableBigUint64Array) => bigint,
         thisArg?: This,
-    ): ImmutableBigInt64Array;
+    ): ImmutableBigUint64Array;
 
     /**
      * Calls the specified callback function for all the elements in an array. The return value of
@@ -151,7 +151,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
             previousValue: bigint,
             currentValue: bigint,
             currentIndex: number,
-            array: ImmutableBigInt64Array,
+            array: ImmutableBigUint64Array,
         ) => bigint,
     ): bigint;
 
@@ -170,7 +170,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
             previousValue: U,
             currentValue: bigint,
             currentIndex: number,
-            array: ImmutableBigInt64Array,
+            array: ImmutableBigUint64Array,
         ) => U,
         initialValue: U,
     ): U;
@@ -190,7 +190,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
             previousValue: bigint,
             currentValue: bigint,
             currentIndex: number,
-            array: ImmutableBigInt64Array,
+            array: ImmutableBigUint64Array,
         ) => bigint,
     ): bigint;
 
@@ -209,7 +209,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
             previousValue: U,
             currentValue: bigint,
             currentIndex: number,
-            array: ImmutableBigInt64Array,
+            array: ImmutableBigUint64Array,
         ) => U,
         initialValue: U,
     ): U;
@@ -219,7 +219,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * @param start The beginning of the specified portion of the array.
      * @param end The end of the specified portion of the array.
      */
-    slice(start?: number, end?: number): ImmutableBigInt64Array;
+    slice(start?: number, end?: number): ImmutableBigUint64Array;
 
     /**
      * Determines whether the specified callback function returns true for any element of an array.
@@ -230,17 +230,17 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * If thisArg is omitted, undefined is used as the this value.
      */
     some<This = undefined>(
-        predicate: (value: bigint, index: number, array: ImmutableBigInt64Array) => boolean,
+        predicate: (value: bigint, index: number, array: ImmutableBigUint64Array) => boolean,
         thisArg?: This,
     ): boolean;
 
     /**
-     * Gets a new ImmutableBigInt64Array view of the ArrayBuffer store for this array, referencing the elements
+     * Gets a new ImmutableBigUint64Array view of the ArrayBuffer store for this array, referencing the elements
      * at begin, inclusive, up to end, exclusive.
      * @param begin The index of the beginning of the array.
      * @param end The index of the end of the array.
      */
-    subarray(begin?: number, end?: number): ImmutableBigInt64Array;
+    subarray(begin?: number, end?: number): ImmutableBigUint64Array;
 
     /** Converts the array to a string by using the current locale. */
     toLocaleString(): string;
@@ -249,7 +249,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
     toString(): string;
 
     /** Returns the primitive value of the specified object. */
-    valueOf(): ImmutableBigInt64Array;
+    valueOf(): ImmutableBigUint64Array;
 
     /** Yields each value in the array. */
     values(): IterableIterator<bigint>;
@@ -264,11 +264,11 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * predicate. If it is not provided, undefined is used instead.
      */
     findLast<S extends bigint, This = undefined>(
-        predicate: (value: bigint, index: number, array: ImmutableBigInt64Array) => value is S,
+        predicate: (value: bigint, index: number, array: ImmutableBigUint64Array) => value is S,
         thisArg?: This,
     ): S | undefined;
     findLast<This = undefined>(
-        predicate: (value: bigint, index: number, array: ImmutableBigInt64Array) => unknown,
+        predicate: (value: bigint, index: number, array: ImmutableBigUint64Array) => unknown,
         thisArg?: This,
     ): bigint | undefined;
 
@@ -282,14 +282,14 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * predicate. If it is not provided, undefined is used instead.
      */
     findLastIndex<This = undefined>(
-        predicate: (value: bigint, index: number, array: ImmutableBigInt64Array) => unknown,
+        predicate: (value: bigint, index: number, array: ImmutableBigUint64Array) => unknown,
         thisArg?: This,
     ): number;
 
     /**
      * Copies the array and returns the copy with the elements in reverse order.
      */
-    toReversed(): ImmutableBigInt64Array;
+    toReversed(): ImmutableBigUint64Array;
 
     /**
      * Copies and sorts the array.
@@ -297,11 +297,11 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * a negative value if the first argument is less than the second argument, zero if they're equal, and a positive
      * value otherwise. If omitted, the elements are sorted in ascending order.
      * ```ts
-     * const myNums = ImmutableBigInt64Array.from([11n, 2n, -22n, 1n]);
-     * myNums.toSorted((a, b) => Number(a - b)) // ImmutableBigInt64Array(4) [-22n, 1n, 2n, 11n]
+     * const myNums = ImmutableBigUint64Array.from([11n, 2n, -22n, 1n]);
+     * myNums.toSorted((a, b) => Number(a - b)) // ImmutableBigUint64Array(4) [-22n, 1n, 2n, 11n]
      * ```
      */
-    toSorted(compareFn?: (a: bigint, b: bigint) => Ordering): ImmutableBigInt64Array;
+    toSorted(compareFn?: (a: bigint, b: bigint) => Ordering): ImmutableBigUint64Array;
 
     /**
      * Copies the array and inserts the given bigint at the provided index.
@@ -310,7 +310,7 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
      * @param value The value to insert into the copied array.
      * @returns A copy of the original array with the inserted value.
      */
-    with(index: number, value: bigint): ImmutableBigInt64Array;
+    with(index: number, value: bigint): ImmutableBigUint64Array;
 
     /**
      * Returns the item located at the specified index.
@@ -319,11 +319,12 @@ export interface ImmutableBigInt64Array extends RelativeIndexable<bigint> {
     at(index: number): bigint | undefined;
 }
 
-export interface ImmutableBigInt64ArrayConstructor {
-    readonly prototype: ImmutableBigInt64Array;
-    new (length?: number): ImmutableBigInt64Array;
-    new (array: Iterable<bigint>): ImmutableBigInt64Array;
-    new (buffer: ArrayBufferLike, byteOffset?: number, length?: number): ImmutableBigInt64Array;
+export interface ImmutableBigUint64ArrayConstructor {
+    readonly prototype: ImmutableBigUint64Array;
+
+    new (length?: number): ImmutableBigUint64Array;
+    new (array: Iterable<bigint>): ImmutableBigUint64Array;
+    new (buffer: ArrayBufferLike, byteOffset?: number, length?: number): ImmutableBigUint64Array;
 
     /** The size in bytes of each element in the array. */
     readonly BYTES_PER_ELEMENT: number;
@@ -332,7 +333,7 @@ export interface ImmutableBigInt64ArrayConstructor {
      * Returns a new array from a set of elements.
      * @param items A set of elements to include in the new array object.
      */
-    of(...items: bigint[]): ImmutableBigInt64Array;
+    of(...items: bigint[]): ImmutableBigUint64Array;
 
     /**
      * Creates an array from an array-like or iterable object.
@@ -340,12 +341,12 @@ export interface ImmutableBigInt64ArrayConstructor {
      * @param mapfn A mapping function to call on every element of the array.
      * @param thisArg Value of 'this' used to invoke the mapfn.
      */
-    from(arrayLike: ArrayLike<bigint>): ImmutableBigInt64Array;
+    from(arrayLike: ArrayLike<bigint>): ImmutableBigUint64Array;
     from<U, This = undefined>(
         arrayLike: ArrayLike<U>,
         mapfn: (v: U, k: number) => bigint,
         thisArg?: This,
-    ): ImmutableBigInt64Array;
+    ): ImmutableBigUint64Array;
 }
 
-export const ImmutableBigInt64Array: ImmutableBigInt64ArrayConstructor = BigInt64Array as any;
+export const ImmutableBigUint64Array: ImmutableBigUint64ArrayConstructor = BigUint64Array as any;
