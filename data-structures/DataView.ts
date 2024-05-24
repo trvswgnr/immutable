@@ -2,6 +2,9 @@ import type { ImmutableArrayBuffer } from "./ArrayBuffer";
 
 export interface ImmutableDataView {
     readonly [Symbol.toStringTag]: string;
+    readonly buffer: ImmutableArrayBuffer;
+    readonly byteLength: number;
+    readonly byteOffset: number;
 
     /**
      * Gets the BigInt64 value at the specified byte offset from the start of the view. There is
@@ -19,9 +22,6 @@ export interface ImmutableDataView {
      */
     getBigUint64(byteOffset: number, littleEndian?: boolean): bigint;
 
-    readonly buffer: ImmutableArrayBuffer;
-    readonly byteLength: number;
-    readonly byteOffset: number;
     /**
      * Gets the Float32 value at the specified byte offset from the start of the view. There is
      * no alignment constraint; multi-byte values may be fetched from any offset.

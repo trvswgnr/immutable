@@ -1,14 +1,5 @@
-import { ImmutableArray, type ImmutableArrayConstructor } from "./Array";
-import { ImmutableArrayBuffer, type ImmutableArrayBufferConstructor } from "./ArrayBuffer";
-import { ImmutableBigInt64Array, type ImmutableBigInt64ArrayConstructor } from "./BigInt64Array";
-import { ImmutableBigUint64Array, type ImmutableBigUint64ArrayConstructor } from "./BigUint64Array";
-import { ImmutableDataView, type ImmutableDataViewConstructor } from "./DataView";
-
-export {
-    ImmutableArray,
-    type ImmutableArrayConstructor,
-    ImmutableArrayBuffer,
-    type ImmutableArrayBufferConstructor,
-    ImmutableBigInt64Array,
-    type ImmutableBigInt64ArrayConstructor,
-};
+export { ImmutableArray, type ImmutableArrayConstructor } from "./Array";
+export { ImmutableArrayBuffer, type ImmutableArrayBufferConstructor } from "./ArrayBuffer";
+export { ImmutableBigInt64Array, type ImmutableBigInt64ArrayConstructor } from "./BigInt64Array";
+export { ImmutableBigUint64Array, type ImmutableBigUint64ArrayConstructor } from "./BigUint64Array";
+export { ImmutableDataView, type ImmutableDataViewConstructor } from "./DataView";

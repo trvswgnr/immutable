@@ -98,3 +98,11 @@ export enum Ordering {
     Equal = 0,
     Greater = 1,
 }
+
+export function isConstructor(func: unknown): func is Constructor<unknown> {
+    return (
+        typeof func === "function" &&
+        func.prototype &&
+        Object.getOwnPropertyNames(func.prototype).length > 1
+    );
+}
